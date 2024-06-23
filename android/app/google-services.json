@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "855707198315",
+    "project_id": "ouvintecidadao",
+    "storage_bucket": "ouvintecidadao.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855707198315:android:f79c8e94e59228ab08622e",
+        "android_client_info": {
+          "package_name": "com.example.ouvinte_cidadao"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB08cKIbOpERUsEcSLIEFwX1cgfotYMvco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

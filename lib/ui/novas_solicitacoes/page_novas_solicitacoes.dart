@@ -4,9 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/infra/rotas.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
+import 'package:ouvinte_cidadao/ui/cadastro_solicitacoes/ctrl_cadastro_solicitacao.dart';
 import 'package:ouvinte_cidadao/ui/cadastro_solicitacoes/page_cadastro_solicitacao.dart';
-import 'package:ouvinte_cidadao/widgets/botao_home.dart';
-import 'package:ouvinte_cidadao/widgets/botao_voltar.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_home.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_voltar.dart';
 
 class PageSolicitacoes extends StatefulWidget {
   const PageSolicitacoes({super.key});
@@ -16,6 +17,8 @@ class PageSolicitacoes extends StatefulWidget {
 }
 
 class PageSolicitacoesState extends State<PageSolicitacoes> {
+  CtrlCadastroSolicitacao controller = CtrlCadastroSolicitacao();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -192,31 +195,36 @@ class PageSolicitacoesState extends State<PageSolicitacoes> {
 
   Widget botaoTrocaLampada() {
     return BotaoHome('Iluminação', Icons.lightbulb, () {
-      Rotas.ir(context, PageCadastroSoliticacao('Iluminação'));
+      Rotas.ir(context,
+          PageCadastroSoliticacao(controller.motivosIluminacao, 'Iluminação'));
     });
   }
 
   Widget botaoCapina() {
     return BotaoHome('Jardinagem', Icons.grass_outlined, () {
-      Rotas.ir(context, PageCadastroSoliticacao('Jardinagem'));
+      Rotas.ir(context,
+          PageCadastroSoliticacao(controller.motivosCapina, 'Jardinagem'));
     });
   }
 
   Widget botaoBuraco() {
     return BotaoHome('Estradas', Icons.remove_road, () {
-      Rotas.ir(context, PageCadastroSoliticacao('Estradas'));
+      Rotas.ir(context,
+          PageCadastroSoliticacao(controller.motivosEstradas, 'Estradas'));
     });
   }
 
   Widget botaoLimpeza() {
     return BotaoHome('Limpeza', Icons.recycling_outlined, () {
-      Rotas.ir(context, PageCadastroSoliticacao('Limpeza'));
+      Rotas.ir(context,
+          PageCadastroSoliticacao(controller.motivosLimpeza, 'Limpeza'));
     });
   }
 
   Widget botaoOutros() {
     return BotaoHome('Outros', Icons.receipt, () {
-      Rotas.ir(context, PageCadastroSoliticacao('Outros'));
+      Rotas.ir(
+          context, PageCadastroSoliticacao(controller.motivosOutros, 'Outros'));
     });
   }
 }

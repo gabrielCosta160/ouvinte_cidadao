@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../infra/theme.dart';
+import '../../infra/theme.dart';
 
 class BotaoBottomApp extends StatelessWidget {
   final String titulo;

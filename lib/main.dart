@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: Rotas.pageNovasSolicitacoes,
+      initialRoute: Rotas.pageLogin,
       getPages: Rotas.obterPages(),
     );
   }

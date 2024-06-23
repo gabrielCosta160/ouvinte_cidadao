@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ouvinte_cidadao/infra/textos.dart';
 import 'package:ouvinte_cidadao/ui/page_soliciatoes_efetuadas/row/page_row_solic_efetuadas.dart';
-import 'package:ouvinte_cidadao/widgets/botao_voltar.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_voltar.dart';
 
 class PageSolicitacoesEfetuadas extends StatefulWidget {
   const PageSolicitacoesEfetuadas({super.key});
@@ -27,7 +28,7 @@ class PageSolicitacoesEfetuadasState extends State<PageSolicitacoesEfetuadas> {
               height: 42,
               child: BotaoBottomApp(
                   cor: Colors.grey,
-                  titulo: 'Voltar',
+                  titulo: voltar,
                   onClick: (context) {
                     Navigator.of(context).pop();
                   }),

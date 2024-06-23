@@ -1,22 +1,24 @@
 import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ouvinte_cidadao/widgets/botao_home.dart';
-
+import 'package:ouvinte_cidadao/infra/textos.dart';
+import 'package:ouvinte_cidadao/ui/cadastro_solicitacoes/ctrl_cadastro_solicitacao.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_remover_foto.dart';
 import '../../infra/theme.dart';
-import '../../widgets/botao_capturar_foto.dart';
-import '../../widgets/botao_voltar.dart';
+import '../../widgets/botoes/botao_capturar_foto.dart';
+import '../../widgets/botoes/botao_voltar.dart';
 import '../../widgets/select_box.dart';
 
 class PageCadastroSoliticacao extends StatefulWidget {
   String titulo;
+  List<String> listaMotivos;
 
-  PageCadastroSoliticacao(this.titulo, {Key? key}) : super(key: key);
+  PageCadastroSoliticacao(this.listaMotivos, this.titulo, {Key? key})
+      : super(key: key);
 
   @override
   State<PageCadastroSoliticacao> createState() =>
@@ -24,11 +26,9 @@ class PageCadastroSoliticacao extends StatefulWidget {
 }
 
 class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
-  // Controlador para o campo de texto
-  final TextEditingController _textController = TextEditingController();
+  CtrlCadastroSolicitacao controller = CtrlCadastroSolicitacao();
+
   String _locationMessage = "";
-  File? imagem;
-  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +39,11 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
           preferredSize: Size(context.width, 50),
           child: Container(
             color: corBotao,
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Nova solicitação',
+                  novaSolicitacao,
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
               ],
@@ -58,7 +58,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               flex: 1,
               child: BotaoBottomApp(
                 padding: EdgeInsets.all(4),
-                titulo: "Voltar",
+                titulo: voltar,
                 onClick: (context) {
                   Navigator.of(context).pop();
                 },
@@ -105,26 +105,26 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               CircleAvatar(
                 radius: 10,
                 backgroundColor: corBotao,
-                child: Text(
+                child: const Text(
                   '4',
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
-                'Informações',
+                informacoes,
                 style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
               )
             ],
           ),
         ),
         TextField(
-          controller: _textController,
-          decoration: InputDecoration(
+          controller: controller.textController,
+          decoration: const InputDecoration(
             constraints: BoxConstraints(maxHeight: 200),
-            hintText: 'Adicione mais informações',
+            hintText: adicioneMaisInformacoes,
             hintStyle: TextStyle(color: Colors.grey),
             labelStyle: TextStyle(color: Colors.black),
             enabledBorder: OutlineInputBorder(
@@ -145,49 +145,11 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
 
   Widget botaoSalvar() {
     return BotaoBottomApp(
-      titulo: 'Enviar',
+      titulo: enviar,
       onClick: (context) {},
       cor: Colors.green,
       padding: EdgeInsets.all(4),
     );
-  }
-
-  Future<void> _getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    // Testa se o serviço de localização está habilitado.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      setState(() {
-        _locationMessage = "Serviço de localização desabilitado.";
-      });
-      return;
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        setState(() {
-          _locationMessage = "Permissão de localização negada.";
-        });
-        return;
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      setState(() {
-        _locationMessage = "Permissão de localização permanentemente negada.";
-      });
-      return;
-    }
-
-    Position position = await Geolocator.getCurrentPosition();
-    setState(() {
-      _locationMessage =
-          "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
-    });
   }
 
   Widget imagemSolicitacao() {
@@ -200,36 +162,74 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               CircleAvatar(
                 radius: 10,
                 backgroundColor: corBotao,
-                child: Text(
+                child: const Text(
                   '2',
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
-                'Foto',
+                foto,
                 style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
               )
             ],
           ),
         ),
-        imagem != null
-            ? Container(
-                height: 250,
-                child: Image.file(
-                  imagem!,
-                  fit: BoxFit.cover,
-                ),
+        controller.imagem != null
+            ? Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [SizedBox(height: 0,),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ]),
+                    height: 250,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.file(
+                        controller.imagem!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: BotaoRemoverFoto(() {
+                      controller.imagem = null;
+                    }),
+                  )
+                ],
               )
-            : Container(
-                height: 250,
-                decoration: BoxDecoration(
-                    color: corBotao.withOpacity(0.2),
-                    border: Border.all(color: corBotao, width: 2),
-                    borderRadius: BorderRadius.circular(20)),
-                child: Center(child: botaoSolicitacao())),
+            : Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: botaoSolicitacao(),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 54, right: 54, top: 16),
+                  child: Center(
+                      child: Image.asset(
+                          "assets/imagens/imagemCampoFoto.png")),
+                ),
+              ],
+            ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BotaoLink(titulo: 'Selecionar na galeria', onClick: () {FilePicker.platform.pickFiles();}),
+        )
       ],
     );
   }
@@ -241,30 +241,30 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
         BotaoCapturarFoto(() {
           _pickImage();
         }),
-        Text('ou'),
-        AbsorbPointer(
-          absorbing: false,
-          child: InkWell(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 2, bottom: 6),
-                    child: Text(
-                      'Selecione uma imagem da galeria',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: corBotao,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            onTap: () {},
-          ),
-        ),
+        // Text('ou'),
+        // AbsorbPointer(
+        //   absorbing: false,
+        //   child: InkWell(
+        //     child: Row(
+        //       children: [
+        //         Expanded(
+        //           child: Padding(
+        //             padding: const EdgeInsets.only(top: 2, bottom: 6),
+        //             child: Text(
+        //               selecioneUmaImagemDaGaleria,
+        //               textAlign: TextAlign.center,
+        //               style: TextStyle(
+        //                 fontWeight: FontWeight.bold,
+        //                 color: corBotao,
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //     onTap: () {},
+        //   ),
+        // ),
       ],
     );
   }
@@ -279,16 +279,16 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               CircleAvatar(
                 radius: 10,
                 backgroundColor: corBotao,
-                child: Text(
+                child: const Text(
                   '3',
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
-                'Localização',
+                localizacao,
                 style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
               )
             ],
@@ -296,7 +296,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
         ),
         BotaoBottomApp(
           onClick: (context) => _showBottomSheet(context),
-          titulo: 'Definir posição no mapa',
+          titulo: 'Definir localização',
           icone: Icons.map_rounded,
         ),
       ],
@@ -312,11 +312,11 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
       backgroundColor: corBackgroundLight,
       builder: (ctx) => construirBottomSheet(
         context,
-        'Localização',
+        localizacao,
         Container(
           child: BotaoBottomApp(
-            onClick: (context) => _getCurrentLocation(),
-            titulo: 'Capturar localização',
+            onClick: (context) => obterLocalizacao(context),
+            titulo: capturarLocalizacao,
             icone: Icons.pin_drop_outlined,
           ),
         ),
@@ -372,7 +372,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           dragLine(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -395,14 +395,14 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
   }
 
   Future<void> _pickImage() async {
-    if (imagem != null) {
-      imagem = null;
+    if (controller.imagem != null) {
+      controller.imagem = null;
     }
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       setState(() {
-        imagem = File(pickedFile.path);
+        controller.imagem = File(pickedFile.path);
       });
     }
   }
@@ -417,30 +417,104 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               CircleAvatar(
                 radius: 10,
                 backgroundColor: corBotao,
-                child: Text(
+                child: const Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 12),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
-                'Selecione um motivo',
+                selecioneUmMotivo,
                 style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
               )
             ],
           ),
         ),
         SelectBox(
-          listItens: [
-            'Lâmpada queimada',
-            'Estrutura compormetida',
-            'Cabos rompidos'
-          ],
-          selectedValue: selectedValue,
+          listItens: widget.listaMotivos,
+          selectedValue: controller.motivoSelecionado,
         ),
       ],
     );
+  }
+
+  Future abrirDialog(
+      {required String mensagem,
+      required String tituloBotao2,
+      required Function onClick2}) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      // O usuário deve apertar um botão para sair do diálogo
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Título do Diálogo'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(mensagem),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(tituloBotao2),
+              onPressed: () {
+                onClick2();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future obterLocalizacao(BuildContext context) async {
+    bool statusPermissao;
+    LocationPermission localizacao;
+
+    statusPermissao = await Geolocator.isLocationServiceEnabled();
+    if (!statusPermissao) {
+      abrirDialog(
+          mensagem: suaLocalizacaoEstaDesativada,
+          onClick2: () {
+            obterLocalizacao(context);
+          },
+          tituloBotao2: ativar);
+    }
+
+    localizacao = await Geolocator.checkPermission();
+    if (localizacao == LocationPermission.denied) {
+      localizacao = await Geolocator.requestPermission();
+      if (localizacao == LocationPermission.denied) {
+        abrirDialog(
+            mensagem: suaLocalizacaoEstaDesativada,
+            onClick2: () {
+              obterLocalizacao(context);
+            },
+            tituloBotao2: ativar);
+      }
+    }
+
+    if (localizacao == LocationPermission.deniedForever) {
+      abrirDialog(
+          mensagem: suaLocalizacaoEstaDesativada,
+          onClick2: () {
+            obterLocalizacao(context);
+          },
+          tituloBotao2: ativar);
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+    controller.latitude = position.latitude;
+    controller.longitude = position.longitude;
   }
 }
