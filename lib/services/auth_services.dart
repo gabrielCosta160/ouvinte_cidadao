@@ -24,12 +24,12 @@ class AuthService extends ChangeNotifier {
     });
   }
 
-  _getUser() {
+  void _getUser() {
     usuario = _auth.currentUser;
     notifyListeners();
   }
 
-  registrar(String email, String senha) async {
+  Future registrar(String email, String senha) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       _getUser();
@@ -42,7 +42,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  login(String email, String senha) async {
+  Future login(String email, String senha) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: senha);
       _getUser();
