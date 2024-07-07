@@ -1,26 +1,23 @@
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ouvinte_cidadao/firebase_options.dart';
+import 'package:mysql1/mysql1.dart';
+import 'package:ouvinte_cidadao/core/ambiente/ambiente.dart';
 import 'package:ouvinte_cidadao/infra/rotas.dart';
 import 'package:ouvinte_cidadao/services/auth_services.dart';
-import 'package:ouvinte_cidadao/ui/home/page_home.dart';
-import 'package:ouvinte_cidadao/ui/novas_solicitacoes/page_novas_solicitacoes.dart';
-import 'package:ouvinte_cidadao/ui/page_soliciatoes_efetuadas/page_solicitacoes_efetuadas.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => AuthService())
-    ],
-    child: MyApp(),
-  ));
+    runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => AuthService())],
+      child: const MyApp(),
+    ));
+  } catch (e) {
+    Exception(e);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +26,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
