@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
 
 class CampoSenhaLogin extends StatefulWidget {
   TextEditingController controller;
@@ -70,6 +71,10 @@ class _CampoSenhaLoginState extends State<CampoSenhaLogin> {
             ),
           ],
         ),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0),
+          child: BotaoLink(titulo: 'Esqueci a senha', onClick: (){}),
+        )
       ],
     );
   }

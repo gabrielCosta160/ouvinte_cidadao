@@ -3,24 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/domain/usuario/services/services_usuario.dart';
 import 'package:ouvinte_cidadao/infra/exceptions.dart';
+import 'package:ouvinte_cidadao/infra/formatacao.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
+import 'package:ouvinte_cidadao/infra/utils.dart';
 import 'package:ouvinte_cidadao/ui/novas_solicitacoes/page_novas_solicitacoes.dart';
 import 'package:ouvinte_cidadao/ui/page_login/ctrl_page_login.dart';
 import 'package:ouvinte_cidadao/ui/page_login/page_login.dart';
-import 'package:ouvinte_cidadao/ui/page_login/pege_exts/page_dados_cadastro_1.dart';
-import 'package:ouvinte_cidadao/ui/page_login/pege_exts/page_email.dart';
+import 'package:ouvinte_cidadao/ui/page_login/page_exts/page_dados_cadastro_1.dart';
+import 'package:ouvinte_cidadao/ui/page_login/page_exts/page_email.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
-import 'package:ouvinte_cidadao/widgets/campo_email_login.dart';
-import 'package:ouvinte_cidadao/widgets/campo_senha_login.dart';
 import 'package:ouvinte_cidadao/widgets/campo_texto.dart';
 
-extension PageDadosCadastro2 on PageLoginState {
-  Widget pageDadosCadastro2({
-    required TextEditingController tecEmail,
-    required TextEditingController tecSenha,
+extension PageDadosCadastro1 on PageLoginState {
+  Widget pageDadosCadastro1({
+    required TextEditingController tecCPF,
+    required TextEditingController tecNome,
+    required TextEditingController tecEndereco,
+    required TextEditingController tecTelefone,
   }) {
-    var obscureText = true;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -43,12 +44,45 @@ extension PageDadosCadastro2 on PageLoginState {
           ),
           Column(
             children: [
-              CampoEmailLogin(tecEmail),
+              CampoTexto(
+                'Nome',
+                'Digite seu nome',
+                tecNome,
+                onChanged: (value) {
+                  exibirCampoSenha.value = true;
+                },
+              ),
               const SizedBox(
                 height: 24,
               ),
-              CampoSenhaLogin(
-                tecSenha,
+              CampoTexto(
+                inputFormatters: [CpfInputFormatter()],
+                'CPF',
+                'Digite seu CPF',
+                tecCPF,
+                onChanged: (value) {
+                  validarCPF(value);
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CampoTexto(
+                textInputType: TextInputType.phone,
+                'Telefone',
+                'Digite seu telefone',
+                tecTelefone,
+                onChanged: (s) async {
+                  await controller.definirTelefone();
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CampoTexto(
+                'Endereço',
+                'Digite seu endereço',
+                tecEndereco,
               ),
             ],
           ),
@@ -58,14 +92,18 @@ extension PageDadosCadastro2 on PageLoginState {
           Column(
             children: [
               Botao(
-                titulo: 'Cadastrar',
+                titulo: 'Próximo',
                 onClick: (context) async {
                   try {
-                    if (tecEmail.text.isEmpty || tecSenha.text.isEmpty) {
+                    if (validarCPF(tecCPF.text) == false) {
+                      throw ECpfInvalido();
+                    }
+                    if (tecNome.text.isEmpty ||
+                        tecCPF.text.isEmpty ||
+                        tecEndereco.text.isEmpty) {
                       throw ECampoObrigatorio();
                     }
-                  await controller.cadastrar();
-
+                    controller.irPara(PaginasLogin.paginaDados2);
                   } catch (e) {
                     showDialog(
                       context: context,
@@ -95,7 +133,8 @@ extension PageDadosCadastro2 on PageLoginState {
                       textAlign: TextAlign.center,
                       titulo: 'Voltar',
                       onClick: () {
-                        controller.irPara(PaginasLogin.paginaDados1);
+                        controller
+                            .irPara(PaginasLogin.paginaInformarEmailSenha);
                       },
                     ),
                   ),
