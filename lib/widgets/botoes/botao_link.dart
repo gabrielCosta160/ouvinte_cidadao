@@ -40,7 +40,7 @@ class BotaoLink extends StatelessWidget {
                     textAlign: textAlign,
                     style: textStyle ??
                         TextStyle(
-                          color: textColor ?? corBotao,
+                          color: textColor ?? verde,
                           decoration: TextDecoration.none,
                           fontSize: context.textTheme.bodySmall!.fontSize,
                           fontWeight: FontWeight.bold,

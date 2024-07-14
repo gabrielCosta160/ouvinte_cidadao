@@ -1,33 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
 
-class CampoTexto extends StatefulWidget {
+class CampoEmailLogin extends StatefulWidget {
   TextEditingController controller;
-  String titulo;
-  String hint;
   Function(String)? onChanged;
-  bool? isSenha;
-  int? maxLines;
-  int? minCaracteres;
-  List<TextInputFormatter>? inputFormatters;
-  TextInputType? textInputType;
 
-  CampoTexto(this.titulo, this.hint, this.controller,
-      {this.onChanged,
-      this.isSenha = false,
-      this.maxLines,
-      this.minCaracteres,
-      this.textInputType,
-      this.inputFormatters});
+
+  CampoEmailLogin(
+    this.controller, {
+    this.onChanged,
+  });
 
   @override
-  _CampoTextoState createState() => _CampoTextoState();
+  _CampoEmailLoginState createState() => _CampoEmailLoginState();
 }
 
-class _CampoTextoState extends State<CampoTexto> {
+class _CampoEmailLoginState extends State<CampoEmailLogin> {
+  bool obscureText = true;
   bool hovering = false;
 
   @override
@@ -37,18 +28,15 @@ class _CampoTextoState extends State<CampoTexto> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 16.0, bottom: 8),
-          child: Text(widget.titulo,
-              style: context.textTheme.bodyMedium!.copyWith(
-                  color: Colors.black54, fontWeight: FontWeight.w600)),
+          child: Text('E-mail',
+              style: context.textTheme.bodyMedium!
+                  .copyWith(color: Colors.black54, fontWeight: FontWeight.w600)),
         ),
         TextField(
-          maxLength: widget.minCaracteres,
-          inputFormatters: widget.inputFormatters,
-          keyboardType: widget.textInputType,
           controller: widget.controller,
           onChanged: widget.onChanged,
           decoration: InputDecoration(
-            hintText: widget.hint,
+            hintText: 'Digite seu e-mail',
             hintStyle:
                 context.textTheme.bodySmall!.copyWith(color: Colors.grey),
             enabledBorder: OutlineInputBorder(
@@ -61,7 +49,7 @@ class _CampoTextoState extends State<CampoTexto> {
             ),
             border: OutlineInputBorder(),
           ),
-          maxLines: widget.maxLines,
+          maxLines: 1,
         ),
       ],
     );

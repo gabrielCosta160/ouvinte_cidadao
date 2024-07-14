@@ -1,0 +1,149 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ouvinte_cidadao/domain/usuario/services/services_usuario.dart';
+import 'package:ouvinte_cidadao/infra/exceptions.dart';
+import 'package:ouvinte_cidadao/infra/formatacao.dart';
+import 'package:ouvinte_cidadao/infra/theme.dart';
+import 'package:ouvinte_cidadao/infra/utils.dart';
+import 'package:ouvinte_cidadao/ui/novas_solicitacoes/page_novas_solicitacoes.dart';
+import 'package:ouvinte_cidadao/ui/page_login/ctrl_page_login.dart';
+import 'package:ouvinte_cidadao/ui/page_login/page_login.dart';
+import 'package:ouvinte_cidadao/ui/page_login/pege_exts/page_dados_cadastro_1.dart';
+import 'package:ouvinte_cidadao/ui/page_login/pege_exts/page_email.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
+import 'package:ouvinte_cidadao/widgets/campo_texto.dart';
+
+extension PageDadosCadastro1 on PageLoginState {
+  Widget pageDadosCadastro1({
+    required TextEditingController tecCPF,
+    required TextEditingController tecNome,
+    required TextEditingController tecEndereco,
+    required TextEditingController tecTelefone,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Cadastro',
+                style: context.textTheme.titleLarge!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              Text('Preencha seus dados'),
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Column(
+            children: [
+              CampoTexto(
+                'Nome',
+                'Digite seu nome',
+                tecNome,
+                onChanged: (value) {
+                  exibirCampoSenha.value = true;
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CampoTexto(
+                inputFormatters: [CpfInputFormatter()],
+                'CPF',
+                'Digite seu CPF',
+                tecCPF,
+                onChanged: (value) {
+                  validarCPF(value);
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CampoTexto(
+                textInputType: TextInputType.phone,
+                'Telefone',
+                'Digite seu telefone',
+                tecTelefone,
+                onChanged: (s) async {
+                  await controller.definirTelefone();
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CampoTexto(
+                'Endereço',
+                'Digite seu endereço',
+                tecEndereco,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Column(
+            children: [
+              Botao(
+                titulo: 'Próximo',
+                onClick: (context) async {
+                  try {
+                    if (validarCPF(tecCPF.text) == false) {
+                      throw ECpfInvalido();
+                    }
+                    if (tecNome.text.isEmpty ||
+                        tecCPF.text.isEmpty ||
+                        tecEndereco.text.isEmpty) {
+                      throw ECampoObrigatorio();
+                    }
+                    controller.irPara(PaginasLogin.paginaDados2);
+                  } catch (e) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          content: Text(e.toString()),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Entendi'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                padding: EdgeInsets.symmetric(vertical: 8),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: BotaoLink(
+                      textAlign: TextAlign.center,
+                      titulo: 'Voltar',
+                      onClick: () {
+                        controller
+                            .irPara(PaginasLogin.paginaInformarEmailSenha);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

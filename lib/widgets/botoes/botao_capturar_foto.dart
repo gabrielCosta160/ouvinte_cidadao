@@ -12,7 +12,7 @@ class BotaoCapturarFoto extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-       color: corBotao
+       color: verde
       ),
       child: MaterialButton(
         onPressed: onClick,

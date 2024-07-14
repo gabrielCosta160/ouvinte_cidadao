@@ -12,13 +12,13 @@ class BotaoRemoverFoto extends StatelessWidget {
     return Container(
       constraints: BoxConstraints(maxHeight: 40, maxWidth: 40),
       decoration: BoxDecoration(
-        color: corBotao.withOpacity(0.2),
-        border: Border.all(color: corBotao),
+        color: verde.withOpacity(0.2),
+        border: Border.all(color: verde),
         borderRadius: BorderRadius.circular(10),
       ),
       child: IconButton(
         icon: Icon(Icons.delete_forever_outlined),
-        color: corBotao,
+        color: verde,
         onPressed: () {
           onClick();
         },

@@ -10,7 +10,7 @@ import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_remover_foto.dart';
 import '../../infra/theme.dart';
 import '../../widgets/botoes/botao_capturar_foto.dart';
-import '../../widgets/botoes/botao_voltar.dart';
+import '../../widgets/botoes/botao.dart';
 import '../../widgets/select_box.dart';
 
 class PageCadastroSoliticacao extends StatefulWidget {
@@ -38,7 +38,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
         appBar: PreferredSize(
           preferredSize: Size(context.width, 50),
           child: Container(
-            color: corBotao,
+            color: verde,
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -56,7 +56,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
           children: [
             Expanded(
               flex: 1,
-              child: BotaoBottomApp(
+              child: Botao(
                 padding: EdgeInsets.all(4),
                 titulo: voltar,
                 onClick: (context) {
@@ -104,7 +104,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
             children: [
               CircleAvatar(
                 radius: 10,
-                backgroundColor: corBotao,
+                backgroundColor: verde,
                 child: const Text(
                   '4',
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -115,7 +115,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               ),
               Text(
                 informacoes,
-                style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
+                style: TextStyle(color: verde, fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -144,7 +144,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
   }
 
   Widget botaoSalvar() {
-    return BotaoBottomApp(
+    return Botao(
       titulo: enviar,
       onClick: (context) {},
       cor: Colors.green,
@@ -161,7 +161,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
             children: [
               CircleAvatar(
                 radius: 10,
-                backgroundColor: corBotao,
+                backgroundColor: verde,
                 child: const Text(
                   '2',
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -172,7 +172,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               ),
               Text(
                 foto,
-                style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
+                style: TextStyle(color: verde, fontWeight: FontWeight.bold),
               )
             ],
           ),
@@ -278,7 +278,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
             children: [
               CircleAvatar(
                 radius: 10,
-                backgroundColor: corBotao,
+                backgroundColor: verde,
                 child: const Text(
                   '3',
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -289,12 +289,12 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               ),
               Text(
                 localizacao,
-                style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
+                style: TextStyle(color: verde, fontWeight: FontWeight.bold),
               )
             ],
           ),
         ),
-        BotaoBottomApp(
+        Botao(
           onClick: (context) => _showBottomSheet(context),
           titulo: 'Definir localização',
           icone: Icons.map_rounded,
@@ -314,7 +314,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
         context,
         localizacao,
         Container(
-          child: BotaoBottomApp(
+          child: Botao(
             onClick: (context) => obterLocalizacao(context),
             titulo: capturarLocalizacao,
             icone: Icons.pin_drop_outlined,
@@ -416,7 +416,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
             children: [
               CircleAvatar(
                 radius: 10,
-                backgroundColor: corBotao,
+                backgroundColor: verde,
                 child: const Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -427,7 +427,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
               ),
               Text(
                 selecioneUmMotivo,
-                style: TextStyle(color: corBotao, fontWeight: FontWeight.bold),
+                style: TextStyle(color: verde, fontWeight: FontWeight.bold),
               )
             ],
           ),
