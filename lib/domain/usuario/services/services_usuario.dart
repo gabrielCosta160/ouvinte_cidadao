@@ -49,6 +49,8 @@ class ServUsuario {
           telefone: telefone);
 
       return repository.cadastrar(usuario);
+    } on ESemInternet catch (e) {
+      rethrow;
     } catch (e) {
       throw EFalhaNoCadastro(e.toString());
     }

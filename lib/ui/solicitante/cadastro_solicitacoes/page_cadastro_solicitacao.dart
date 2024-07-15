@@ -5,13 +5,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ouvinte_cidadao/infra/textos.dart';
-import 'package:ouvinte_cidadao/ui/cadastro_solicitacoes/ctrl_cadastro_solicitacao.dart';
+import 'package:ouvinte_cidadao/infra/theme.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/cadastro_solicitacoes/ctrl_cadastro_solicitacao.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_capturar_foto.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_remover_foto.dart';
-import '../../infra/theme.dart';
-import '../../widgets/botoes/botao_capturar_foto.dart';
-import '../../widgets/botoes/botao.dart';
-import '../../widgets/select_box.dart';
+import 'package:ouvinte_cidadao/widgets/select_box.dart';
 
 class PageCadastroSoliticacao extends StatefulWidget {
   String titulo;

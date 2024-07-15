@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/infra/textos.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
-import 'package:ouvinte_cidadao/ui/page_soliciatoes_efetuadas/row/page_row_solic_efetuadas.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/page_soliciatoes_efetuadas/row/page_row_solic_efetuadas.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
 
 class PageSolicitacoesEfetuadas extends StatefulWidget {

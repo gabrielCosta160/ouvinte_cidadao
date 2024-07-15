@@ -4,12 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/infra/rotas.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
-import 'package:ouvinte_cidadao/ui/cadastro_solicitacoes/ctrl_cadastro_solicitacao.dart';
-import 'package:ouvinte_cidadao/ui/cadastro_solicitacoes/page_cadastro_solicitacao.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/cadastro_solicitacoes/ctrl_cadastro_solicitacao.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/cadastro_solicitacoes/page_cadastro_solicitacao.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_home.dart';
-import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
 import 'package:ouvinte_cidadao/widgets/my_drawer.dart';
-import 'package:provider/provider.dart';
 
 class PageSolicitacoes extends StatefulWidget {
   const PageSolicitacoes({super.key});

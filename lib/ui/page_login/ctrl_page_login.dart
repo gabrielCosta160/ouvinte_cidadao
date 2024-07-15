@@ -5,7 +5,7 @@ import 'package:ouvinte_cidadao/domain/usuario/services/services_usuario.dart';
 import 'package:ouvinte_cidadao/domain/usuario/usuario.dart';
 import 'package:ouvinte_cidadao/infra/exceptions.dart';
 import 'package:ouvinte_cidadao/infra/formatacao.dart';
-import 'package:ouvinte_cidadao/ui/novas_solicitacoes/page_novas_solicitacoes.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/novas_solicitacoes/page_novas_solicitacoes.dart';
 import 'package:ouvinte_cidadao/widgets/dialog.dart';
 import 'package:ouvinte_cidadao/widgets/dialog_carregamento.dart';
 

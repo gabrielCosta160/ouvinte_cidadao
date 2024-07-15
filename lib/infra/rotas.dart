@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/bindings_interface.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:ouvinte_cidadao/ui/page_login/page_login.dart';
-
-import '../ui/cadastro_solicitacoes/page_cadastro_solicitacao.dart';
-import '../ui/home/page_home.dart';
-import '../ui/novas_solicitacoes/page_novas_solicitacoes.dart';
-import '../ui/page_soliciatoes_efetuadas/page_solicitacoes_efetuadas.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/novas_solicitacoes/page_novas_solicitacoes.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/page_soliciatoes_efetuadas/page_solicitacoes_efetuadas.dart';
 
 /// REFATORAR CÓDIGO COPIADO
 

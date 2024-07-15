@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ouvinte_cidadao/domain/usuario/services/services_usuario.dart';
-import 'package:ouvinte_cidadao/ui/novas_solicitacoes/page_novas_solicitacoes.dart';
 import 'package:ouvinte_cidadao/ui/page_login/ctrl_page_login.dart';
 import 'package:ouvinte_cidadao/ui/page_login/page_login.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';

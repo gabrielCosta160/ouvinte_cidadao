@@ -38,3 +38,10 @@ class EFalhaNoLogin implements Exception {
     return mensagem;
   }
 }
+
+class ESemInternet implements Exception {
+  @override
+  String toString() {
+    return 'Verifique sua conexão com a internet';
+  }
+}
