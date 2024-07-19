@@ -6,7 +6,7 @@ import 'package:ouvinte_cidadao/infra/theme.dart';
 
 class CampoTexto extends StatefulWidget {
   TextEditingController controller;
-  String titulo;
+  String? titulo;
   String hint;
   Function(String)? onChanged;
   bool? isSenha;
@@ -15,8 +15,9 @@ class CampoTexto extends StatefulWidget {
   List<TextInputFormatter>? inputFormatters;
   TextInputType? textInputType;
 
-  CampoTexto(this.titulo, this.hint, this.controller,
-      {this.onChanged,
+  CampoTexto(this.hint, this.controller,
+      {this.titulo,
+      this.onChanged,
       this.isSenha = false,
       this.maxLines,
       this.minCaracteres,
@@ -37,9 +38,13 @@ class _CampoTextoState extends State<CampoTexto> {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 16.0, bottom: 8),
-          child: Text(widget.titulo,
-              style: context.textTheme.bodyMedium!.copyWith(
-                  color: Colors.black54, fontWeight: FontWeight.w600)),
+          child: widget.titulo != null
+              ? Text(widget.titulo!,
+                  style: context.textTheme.bodyMedium!.copyWith(
+                      color: Colors.black54, fontWeight: FontWeight.w600))
+              : SizedBox(
+                  height: 0,
+                ),
         ),
         TextField(
           maxLength: widget.minCaracteres,

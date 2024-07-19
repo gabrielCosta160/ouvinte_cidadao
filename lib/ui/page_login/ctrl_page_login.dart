@@ -5,7 +5,12 @@ import 'package:ouvinte_cidadao/domain/usuario/services/services_usuario.dart';
 import 'package:ouvinte_cidadao/domain/usuario/usuario.dart';
 import 'package:ouvinte_cidadao/infra/exceptions.dart';
 import 'package:ouvinte_cidadao/infra/formatacao.dart';
-import 'package:ouvinte_cidadao/ui/solicitante/novas_solicitacoes/page_novas_solicitacoes.dart';
+import 'package:ouvinte_cidadao/ui/solicitante/home/page_home.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
+import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
+import 'package:ouvinte_cidadao/widgets/bottomSheet.dart';
+import 'package:ouvinte_cidadao/widgets/campo_email_login.dart';
+import 'package:ouvinte_cidadao/widgets/campo_senha_login.dart';
 import 'package:ouvinte_cidadao/widgets/dialog.dart';
 import 'package:ouvinte_cidadao/widgets/dialog_carregamento.dart';
 
@@ -19,6 +24,8 @@ class CtrlPageLogin {
 
   PageController pageController = PageController();
   late BuildContext context;
+
+  var exibirCampoSenha = false.obs;
 
   void inicializar() {
     inicializarRotas();
@@ -100,7 +107,7 @@ class CtrlPageLogin {
           titulo: 'Erro ao fazer login',
           mensagem: e.toString(),
           tituloButton: 'Entendi');
-    } catch(e){
+    } catch (e) {
       showMyDialog(
           context: context,
           titulo: 'Erro',

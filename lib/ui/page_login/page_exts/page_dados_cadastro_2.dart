@@ -46,7 +46,9 @@ extension PageDadosCadastro2 on PageLoginState {
               const SizedBox(
                 height: 24,
               ),
-              CampoSenhaLogin(
+              CampoTexto(
+                titulo:       'Senha',
+                'Digite uma senha',
                 tecSenha,
               ),
             ],
@@ -63,8 +65,7 @@ extension PageDadosCadastro2 on PageLoginState {
                     if (tecEmail.text.isEmpty || tecSenha.text.isEmpty) {
                       throw ECampoObrigatorio();
                     }
-                  await controller.cadastrar();
-
+                    await controller.cadastrar();
                   } catch (e) {
                     showDialog(
                       context: context,

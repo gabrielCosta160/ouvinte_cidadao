@@ -51,10 +51,6 @@ extension PageEmail on PageLoginState {
                     CampoSenhaLogin(
                       tecSenha,
                     ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    BotaoLink(titulo: 'Esqueci a senha', onClick: () {})
                   ],
                 ),
                 const SizedBox(

@@ -25,7 +25,7 @@ class _MyDrawerState extends State<MyDrawer> {
   Widget cabecalho() {
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      color: verde,
+      decoration: BoxDecoration(gradient: LinearGradient(colors:[ verde, roxo])),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

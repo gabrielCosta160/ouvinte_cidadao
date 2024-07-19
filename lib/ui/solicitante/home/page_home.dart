@@ -25,7 +25,15 @@ class PageSolicitacoesState extends State<PageSolicitacoes> {
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: branco),
-          backgroundColor: verde,
+          backgroundColor: Colors.transparent,
+          // Define o fundo como transparente para mostrar o gradiente
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [verde, roxo],
+              ),
+            ),
+          ),
         ),
         drawer: MyDrawer(),
         backgroundColor: corBackgroundLight,
@@ -33,69 +41,82 @@ class PageSolicitacoesState extends State<PageSolicitacoes> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
+          Column(
+          children: [
+          Container(
+          height: context.height * 0.3,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [verde, roxo])),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Container(
-                    color: Colors.white,
-                    width: context.width,
-                    child: Image.asset(
-                      'assets/imagens/logo.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Novas Solicitações',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 10.0,
-                          crossAxisSpacing: 10.0,
-                          physics: NeverScrollableScrollPhysics(),
-                          children: listaBotoesNovaSolicitacao(),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'Minhas solicitações',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 10.0,
-                          crossAxisSpacing: 10.0,
-                          children: listaBotoesMinhasSolicitacoes(),
-                          physics: NeverScrollableScrollPhysics(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+            Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(child: Image.asset(
+                'assets/imagens/logo.png',
+                fit: BoxFit.cover,),
+              ),
+            )
+            )],
+                      ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Novas Solicitações',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                physics: NeverScrollableScrollPhysics(),
+                children: listaBotoesNovaSolicitacao(),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Minhas solicitações',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: 3,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                children: listaBotoesMinhasSolicitacoes(),
+                physics: NeverScrollableScrollPhysics(),
               ),
             ],
           ),
         ),
+        ],
       ),
+      ],
+    ),)
+    ,
+    )
+    ,
     );
   }
 

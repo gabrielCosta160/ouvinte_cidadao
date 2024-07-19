@@ -44,7 +44,7 @@ extension PageDadosCadastro1 on PageLoginState {
           Column(
             children: [
               CampoTexto(
-                'Nome',
+                titulo: 'Nome',
                 'Digite seu nome',
                 tecNome,
                 onChanged: (value) {
@@ -56,7 +56,7 @@ extension PageDadosCadastro1 on PageLoginState {
               ),
               CampoTexto(
                 inputFormatters: [CpfInputFormatter()],
-                'CPF',
+                titulo: 'CPF',
                 'Digite seu CPF',
                 tecCPF,
                 onChanged: (value) {
@@ -68,7 +68,7 @@ extension PageDadosCadastro1 on PageLoginState {
               ),
               CampoTexto(
                 textInputType: TextInputType.phone,
-                'Telefone',
+                titulo: 'Telefone',
                 'Digite seu telefone',
                 tecTelefone,
                 onChanged: (s) async {
@@ -79,7 +79,7 @@ extension PageDadosCadastro1 on PageLoginState {
                 height: 24,
               ),
               CampoTexto(
-                'Endereço',
+                titulo: 'Endereço',
                 'Digite seu endereço',
                 tecEndereco,
               ),
