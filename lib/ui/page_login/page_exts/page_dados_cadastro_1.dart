@@ -15,12 +15,8 @@ import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
 import 'package:ouvinte_cidadao/widgets/campo_texto.dart';
 
 extension PageDadosCadastro1 on PageLoginState {
-  Widget pageDadosCadastro1({
-    required TextEditingController tecCPF,
-    required TextEditingController tecNome,
-    required TextEditingController tecEndereco,
-    required TextEditingController tecTelefone,
-  }) {
+  Widget pageDadosCadastro1(
+  ) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -46,7 +42,7 @@ extension PageDadosCadastro1 on PageLoginState {
               CampoTexto(
                 titulo: 'Nome',
                 'Digite seu nome',
-                tecNome,
+                controller.tecNome,
                 onChanged: (value) {
                   exibirCampoSenha.value = true;
                 },
@@ -58,7 +54,7 @@ extension PageDadosCadastro1 on PageLoginState {
                 inputFormatters: [CpfInputFormatter()],
                 titulo: 'CPF',
                 'Digite seu CPF',
-                tecCPF,
+                controller.tecCPF,
                 onChanged: (value) {
                   validarCPF(value);
                 },
@@ -70,7 +66,7 @@ extension PageDadosCadastro1 on PageLoginState {
                 textInputType: TextInputType.phone,
                 titulo: 'Telefone',
                 'Digite seu telefone',
-                tecTelefone,
+                controller.tecTelefone,
                 onChanged: (s) async {
                   await controller.definirTelefone();
                 },
@@ -81,7 +77,7 @@ extension PageDadosCadastro1 on PageLoginState {
               CampoTexto(
                 titulo: 'Endereço',
                 'Digite seu endereço',
-                tecEndereco,
+                controller.tecEndereco,
               ),
             ],
           ),
@@ -92,14 +88,14 @@ extension PageDadosCadastro1 on PageLoginState {
             children: [
               Botao(
                 titulo: 'Próximo',
-                onClick: (context) async {
+                onClick: () async {
                   try {
-                    if (validarCPF(tecCPF.text) == false) {
+                    if (validarCPF( controller.tecCPF.text) == false) {
                       throw ECpfInvalido();
                     }
-                    if (tecNome.text.isEmpty ||
-                        tecCPF.text.isEmpty ||
-                        tecEndereco.text.isEmpty) {
+                    if ( controller.tecNome.text.isEmpty ||
+                        controller.tecCPF.text.isEmpty ||
+                        controller.tecEndereco.text.isEmpty) {
                       throw ECampoObrigatorio();
                     }
                     controller.irPara(PaginasLogin.paginaDados2);

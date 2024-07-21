@@ -4,20 +4,19 @@ import 'package:get/get.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
 
-class CampoSenhaLogin extends StatefulWidget {
+class CampoSenha extends StatefulWidget {
   TextEditingController controller;
   Function(String)? onChanged;
+  bool? exibirEsqueciSenha;
 
-  CampoSenhaLogin(
-    this.controller, {
-    this.onChanged,
-  });
+  CampoSenha(this.controller,
+      {this.onChanged, this.exibirEsqueciSenha = false});
 
   @override
-  _CampoSenhaLoginState createState() => _CampoSenhaLoginState();
+  _CampoSenhaState createState() => _CampoSenhaState();
 }
 
-class _CampoSenhaLoginState extends State<CampoSenhaLogin> {
+class _CampoSenhaState extends State<CampoSenha> {
   bool obscureText = true;
   bool hovering = false;
 
@@ -71,10 +70,14 @@ class _CampoSenhaLoginState extends State<CampoSenhaLogin> {
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: BotaoLink(titulo: 'Esqueci a senha', onClick: (){}),
-        )
+        widget.exibirEsqueciSenha!
+            ? Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: BotaoLink(titulo: 'Esqueci a senha', onClick: () {}),
+              )
+            : SizedBox(
+                height: 0,
+              )
       ],
     );
   }

@@ -60,7 +60,7 @@ class PageCadastroSoliticacaoState extends State<PageCadastroSoliticacao> {
                     children: [
                       Botao(
                           titulo: 'Próximo',
-                          onClick: (ctx) {
+                          onClick: () {
                             controller.irPara();
                           }),
                       BotaoLink(

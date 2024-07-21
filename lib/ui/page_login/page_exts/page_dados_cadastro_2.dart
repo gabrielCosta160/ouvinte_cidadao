@@ -60,7 +60,7 @@ extension PageDadosCadastro2 on PageLoginState {
             children: [
               Botao(
                 titulo: 'Cadastrar',
-                onClick: (context) async {
+                onClick: () async {
                   try {
                     if (tecEmail.text.isEmpty || tecSenha.text.isEmpty) {
                       throw ECampoObrigatorio();

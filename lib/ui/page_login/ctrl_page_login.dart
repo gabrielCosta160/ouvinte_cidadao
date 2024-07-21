@@ -13,6 +13,7 @@ import 'package:ouvinte_cidadao/widgets/campo_email_login.dart';
 import 'package:ouvinte_cidadao/widgets/campo_senha_login.dart';
 import 'package:ouvinte_cidadao/widgets/dialog.dart';
 import 'package:ouvinte_cidadao/widgets/dialog_carregamento.dart';
+import 'package:ouvinte_cidadao/widgets/dialog_sim_nao.dart';
 
 class CtrlPageLogin {
   TextEditingController tecNome = TextEditingController();
@@ -26,6 +27,15 @@ class CtrlPageLogin {
   late BuildContext context;
 
   var exibirCampoSenha = false.obs;
+
+  bool isTodosCamposPreenchidos() {
+    return tecNome.text.isNotEmpty &&
+        tecCPF.text.isNotEmpty &&
+        tecTelefone.text.isNotEmpty &&
+        tecEndereco.text.isNotEmpty &&
+        tecEmail.text.isNotEmpty &&
+        tecSenha.text.isNotEmpty;
+  }
 
   void inicializar() {
     inicializarRotas();
@@ -47,6 +57,28 @@ class CtrlPageLogin {
     pageController = PageController(
       initialPage: PaginasLogin.parse(PaginasLogin.paginaInformarEmailSenha),
     );
+  }
+
+  Future<void> cancelarCadastro(BuildContext ctx) async {
+    if (tecEmail.text.isNotEmpty ||
+        tecSenha.text.isNotEmpty ||
+        tecEndereco.text.isNotEmpty ||
+        tecNome.text.isNotEmpty ||
+        tecCPF.text.isNotEmpty ||
+        tecTelefone.text.isNotEmpty) {
+      return await showMyDialogSimNao(
+          context: ctx,
+          titulo: 'Deseja sair?',
+          mensagem: 'As informações preenchidas serão perdidas',
+          onClickBotaoSim: () {
+            tecEmail.clear();
+            tecSenha.clear();
+            tecEndereco.clear();
+            tecNome.clear();
+            tecCPF.clear();
+            tecTelefone.clear();
+          });
+    }
   }
 
   Future definirTelefone() async {
@@ -92,27 +124,36 @@ class CtrlPageLogin {
 
       await Future.delayed(const Duration(seconds: 2));
 
-      await ServUsuario.login(email: tecEmail.text, senha: tecSenha.text);
+      if (tecEmail.text.isEmpty || tecSenha.text.isEmpty) {
+        throw ECampoEmailOuSenhaVazio(
+            email: tecEmail.text, senha: tecSenha.text);
+      }
+
+      bool loginBemSucedido =
+          await ServUsuario.login(email: tecEmail.text, senha: tecSenha.text);
 
       Navigator.of(context).pop();
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PageSolicitacoes()),
-      );
+      if (loginBemSucedido) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PageSolicitacoes()),
+        );
+      }
     } on EFalhaNoLogin catch (e) {
       Navigator.of(context).pop();
       showMyDialog(
           context: context,
           titulo: 'Erro ao fazer login',
           mensagem: e.toString(),
-          tituloButton: 'Entendi');
+          tituloBotao1: 'Entendi');
     } catch (e) {
+      Navigator.of(context).pop();
       showMyDialog(
           context: context,
           titulo: 'Erro',
           mensagem: e.toString(),
-          tituloButton: 'Entendi');
+          tituloBotao1: 'Entendi');
     }
   }
 }

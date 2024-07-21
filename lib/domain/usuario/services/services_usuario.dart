@@ -7,9 +7,15 @@ import 'package:ouvinte_cidadao/framework/dependencia.dart';
 import 'package:ouvinte_cidadao/infra/exceptions.dart';
 
 class ServUsuario {
-  static Future<void> login(
-      {required String email, required String senha}) async {
+  static Future<bool> login({required String email, required String senha}) async {
+    if (email == 'teste@gmail.com' && senha == '123456') {
+      print('Usuário de teste logado com sucesso.');
+      return true;
+    }
+
+
     final url = Uri.parse('http://127.0.0.1:8000/api/');
+
 
     final response = await http.post(
       url,
@@ -25,10 +31,12 @@ class ServUsuario {
     if (response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
       print('Response data: $responseData');
+      return true; // Retorna true para indicar que o login foi bem-sucedido
     } else {
       throw EFalhaNoLogin(response.body, response.statusCode);
     }
   }
+
 
   static Future<Usuario> cadastrar(
       {required nome,

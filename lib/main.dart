@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: theme,
       debugShowCheckedModeBanner: false,
-      initialRoute: Rotas.pageNovasSolicitacoes,
+      initialRoute: Rotas.pageLogin,
       getPages: Rotas.obterPages(),
     );
   }

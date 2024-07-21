@@ -6,7 +6,7 @@ import '../../infra/theme.dart';
 
 class Botao extends StatelessWidget {
   final String titulo;
-  final Function(BuildContext) onClick;
+  final Function() onClick;
   final Color? cor;
   final IconData? icone;
   EdgeInsetsGeometry? padding;
@@ -30,7 +30,7 @@ class Botao extends StatelessWidget {
           child: MaterialButton(
             height: 50,
             onPressed: disable! ? null : () async {
-              onClick(context);
+              onClick();
             },
             disabledColor: Colors.grey,
             disabledTextColor: Colors.black54,

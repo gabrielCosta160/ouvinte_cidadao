@@ -94,7 +94,7 @@ class MyBottomSheet extends StatelessWidget {
                   tituloBotao != null
                       ? Botao(
                     titulo: tituloBotao!,
-                    onClick: (context) {
+                    onClick: () {
                       Navigator.of(context).pop();
                       if (onClick != null) {
                         onClick!();

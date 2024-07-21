@@ -32,9 +32,7 @@ class CpfInputFormatter extends TextInputFormatter {
   }
 }
 
-extension FormatacaoString on String{
-
-
+extension FormatacaoString on String {
   String get somenteDecimais => replaceAll(RegExp("[^0-9,.-]"), "");
 
   String get somenteNumeros => replaceAll(RegExp("[^0-9]"), "");
@@ -68,5 +66,33 @@ extension FormatacaoString on String{
     }
 
     return textoSomenteNumeros;
+  }
+
+  String removerColchete() {
+    return replaceAll('[', '').replaceAll(']', '');
+  }
+
+  String removerVirgulas() {
+    return replaceAll(',', '');
+  }
+}
+
+extension FormatarCamposList on List<String> {
+  String formatarCampos() {
+    if (this.isEmpty) {
+      return '';
+    }
+
+    // Cria uma cópia da lista para não alterar a original
+    List<String> campos = List.from(this);
+
+    if (campos.length == 1) {
+      return campos.first;
+    } else if (campos.length == 2) {
+      return '${campos[0]} e ${campos[1]}';
+    } else {
+      final ultimo = campos.removeLast();
+      return '${campos.join(', ')} e $ultimo';
+    }
   }
 }

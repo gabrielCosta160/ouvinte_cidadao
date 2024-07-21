@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ouvinte_cidadao/infra/exceptions.dart';
 import 'package:ouvinte_cidadao/infra/formatacao.dart';
 import 'package:ouvinte_cidadao/infra/theme.dart';
 import 'package:ouvinte_cidadao/infra/utils.dart';
@@ -61,7 +62,7 @@ class _PageLoginMobileState extends State<PageLoginMobile> {
                   children: [
                     Botao(
                       titulo: 'Entrar',
-                      onClick: (x) async {
+                      onClick: () async {
                         await showMyBottomSheet(
                           context: context,
                           corpo: SizedBox(
@@ -79,7 +80,10 @@ class _PageLoginMobileState extends State<PageLoginMobile> {
                                       child:
                                           CampoEmailLogin(controller.tecEmail),
                                     ),
-                                    CampoSenhaLogin(controller.tecSenha),
+                                    CampoSenha(
+                                      controller.tecSenha,
+                                      exibirEsqueciSenha: true,
+                                    ),
                                     SizedBox(
                                       height: 24,
                                     ),
@@ -87,7 +91,11 @@ class _PageLoginMobileState extends State<PageLoginMobile> {
                                 ),
                                 Column(
                                   children: [
-                                    Botao(titulo: 'Entrar', onClick: (e) {}),
+                                    Botao(
+                                        titulo: 'Entrar',
+                                        onClick: () async {
+                                          await controller.entrar(context);
+                                        }),
                                     SizedBox(
                                       height: 8,
                                     ),
@@ -95,12 +103,18 @@ class _PageLoginMobileState extends State<PageLoginMobile> {
                                         textAlign: TextAlign.center,
                                         titulo: 'Voltar',
                                         onClick: () {
-                                          Navigator.of(context).pop;
+                                          Navigator.of(context).pop();
+                                          controller.tecEmail.clear();
+                                          controller.tecSenha.clear();
                                         }),
                                   ],
                                 ),
                                 BotaoLink(
-                                    titulo: 'Não tenho conta', onClick: () {})
+                                    titulo: 'Não tenho conta',
+                                    onClick: () async {
+                                      Navigator.of(context).pop();
+                                      await abrirAbaCadastro();
+                                    })
                               ],
                             ),
                           ),
@@ -111,91 +125,7 @@ class _PageLoginMobileState extends State<PageLoginMobile> {
                     BotaoRegistrar(
                       titulo: 'Registrar',
                       onClick: (s) async {
-                        await showMyBottomSheet(
-                          titulo: 'Preencha seus dados',
-                          context: context,
-                          corpo: SizedBox(
-                            height: context.height * 0.8,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    CampoTexto(
-                                      titulo: 'Nome',
-                                      'Digite seu nome',
-                                      controller.tecNome,
-                                      onChanged: (value) {
-                                        controller.exibirCampoSenha.value =
-                                            true;
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    CampoTexto(
-                                      inputFormatters: [CpfInputFormatter()],
-                                      titulo: 'CPF',
-                                      'Digite seu CPF',
-                                      controller.tecCPF,
-                                      onChanged: (value) {
-                                        validarCPF(value);
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    CampoTexto(
-                                      textInputType: TextInputType.phone,
-                                      titulo: 'Telefone',
-                                      'Digite seu telefone',
-                                      controller.tecTelefone,
-                                      onChanged: (s) async {
-                                        await controller.definirTelefone();
-                                      },
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    CampoTexto(
-                                      titulo: 'Endereço',
-                                      'Digite seu endereço',
-                                      controller.tecEndereco,
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    CampoEmailLogin(controller.tecEmail),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    CampoTexto(
-                                      titulo: 'Senha',
-                                      'Digite uma senha',
-                                      controller.tecSenha,
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Botao(titulo: 'Cadastrar', onClick: (e) {}),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    BotaoLink(
-                                        textAlign: TextAlign.center,
-                                        titulo: 'Voltar',
-                                        onClick: () {
-                                          Navigator.of(context).pop;
-                                        }),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          maxWidth: context.width,
-                        );
+                        await abrirAbaCadastro();
                       },
                     )
                   ],
@@ -205,6 +135,134 @@ class _PageLoginMobileState extends State<PageLoginMobile> {
           ),
         ),
       ),
+    );
+  }
+
+  Future abrirAbaCadastro() async {
+    return await showMyBottomSheet(
+      titulo: 'Preencha seus dados',
+      context: context,
+      corpo: SizedBox(
+        height: context.height * 0.8,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CampoTexto(
+                    titulo: 'Nome',
+                    'Digite seu nome',
+                    controller.tecNome,
+                    onChanged: (value) {
+                      controller.exibirCampoSenha.value = true;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CampoTexto(
+                    inputFormatters: [CpfInputFormatter()],
+                    titulo: 'CPF',
+                    'Digite seu CPF',
+                    controller.tecCPF,
+                    onChanged: (value) {
+                      validarCPF(value);
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CampoTexto(
+                    textInputType: TextInputType.phone,
+                    titulo: 'Telefone',
+                    'Digite seu telefone',
+                    controller.tecTelefone,
+                    onChanged: (s) async {
+                      await controller.definirTelefone();
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CampoTexto(
+                    titulo: 'Endereço',
+                    'Digite seu endereço',
+                    controller.tecEndereco,
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CampoEmailLogin(controller.tecEmail),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  CampoSenha(controller.tecSenha),
+                ],
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              Column(
+                children: [
+                  Botao(
+                      titulo: 'Cadastrar',
+                      onClick: () async {
+                        try {
+                          if (controller.isTodosCamposPreenchidos() == false) {
+                            throw EPreenchaTodosOsCampos(
+                                telefone: controller.tecTelefone.text,
+                                senha: controller.tecSenha.text,
+                                cpf: controller.tecCPF.text,
+                                nome: controller.tecNome.text,
+                                endereco: controller.tecEndereco.text,
+                                email: controller.tecEmail.text);
+                          }
+                          if (validarCPF(controller.tecCPF.text) == false) {
+                            throw ECpfInvalido();
+                          }
+
+                          await controller.cadastrar();
+                        } catch (e) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content: Text(e.toString()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Entendi'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  BotaoLink(
+                      textAlign: TextAlign.center,
+                      titulo: 'Voltar',
+                      onClick: () async {
+                        await controller.cancelarCadastro(context);
+                        Navigator.of(context).pop();
+                      }),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      maxWidth: context.width,
     );
   }
 }

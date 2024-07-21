@@ -4,24 +4,20 @@ import 'package:ouvinte_cidadao/infra/utils.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao.dart';
 import 'package:ouvinte_cidadao/widgets/botoes/botao_link.dart';
 
-Future showMyDialog(
+Future showMyDialogSimNao(
     {required BuildContext context,
     required String titulo,
     required String mensagem,
-    required String tituloBotao1,
-    String? tituloBotao2,
     double? maxWidth,
-    Function? onClick}) async {
+    required Function onClickBotaoSim}) async {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
         return MyDialog(
           titulo: titulo,
           mensagem: mensagem,
-          tituloBotao1: tituloBotao1,
-          tituloBotao2: tituloBotao2,
           maxWidth: maxWidth,
-          onClick: onClick,
+          onClickBotaoSim: onClickBotaoSim,
         );
       });
 }
@@ -30,17 +26,13 @@ class MyDialog extends StatelessWidget {
   double? maxWidth;
   String titulo;
   String mensagem;
-  String tituloBotao1;
-  String? tituloBotao2;
-  Function? onClick;
+  Function? onClickBotaoSim;
 
   MyDialog(
       {required this.titulo,
-      required this.tituloBotao1,
       required this.mensagem,
-      this.tituloBotao2,
       this.maxWidth = 350,
-      this.onClick,
+      this.onClickBotaoSim,
       super.key});
 
   @override
@@ -73,29 +65,38 @@ class MyDialog extends StatelessWidget {
                       child: Text(
                         titulo,
                         style: context.textTheme.bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w600),
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ),
                     Text(
                       mensagem,
                       style: context.textTheme.bodyMedium,
                     ),
-                    tituloBotao2 != null
-                        ? Botao(
-                            titulo: tituloBotao2!,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      // Center alignment
+                      children: [
+                        Expanded(
+                          child: Botao(
+                            titulo: 'Sim',
+                            cor: Colors.red,
                             onClick: () {
                               Navigator.of(context).pop();
-                            })
-                        : SizedBox(
-                            height: 0,
+                              onClickBotaoSim!();
+                            },
                           ),
-                    BotaoLink(
-                        textAlign: TextAlign.center,
-                        titulo: tituloBotao1,
-                        onClick: () {
-                          Navigator.of(context).pop();
-                          onClick;
-                        })
+                        ), // Add space between buttons
+                        Expanded(
+                          child: Botao(
+                            titulo: 'Não',
+                            cor: Colors.grey,
+                            onClick: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

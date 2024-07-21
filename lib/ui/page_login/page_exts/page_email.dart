@@ -48,8 +48,9 @@ extension PageEmail on PageLoginState {
                 ),
                 Column(
                   children: [
-                    CampoSenhaLogin(
+                    CampoSenha(
                       tecSenha,
+                      exibirEsqueciSenha: true,
                     ),
                   ],
                 ),
@@ -63,7 +64,7 @@ extension PageEmail on PageLoginState {
               children: [
                 Botao(
                   titulo: 'Entrar',
-                  onClick: (context) async {
+                  onClick: () async {
                     await controller.entrar(context);
                   },
                   padding: EdgeInsets.symmetric(vertical: 8),

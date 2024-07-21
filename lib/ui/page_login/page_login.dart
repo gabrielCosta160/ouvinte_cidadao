@@ -34,59 +34,53 @@ class PageLoginState extends State<PageLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (p0, p1) {
-        return isVisualizacaoMobile()
-            ? PageLoginMobile()
-            : SafeArea(
-                child: Scaffold(
-                  body: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Center(
-                          child: Container(
-                            constraints: BoxConstraints(maxWidth: 400),
-                            color: corBackgroundLight,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: PageView(
-                                controller: controller.pageController,
-                                children: [
-                                  pageEmailSenha(
-                                      tecEmail: controller.tecEmail,
-                                      tecSenha: controller.tecSenha),
-                                  pageDadosCadastro1(
-                                      tecCPF: controller.tecCPF,
-                                      tecNome: controller.tecNome,
-                                      tecTelefone: controller.tecTelefone,
-                                      tecEndereco: controller.tecEndereco),
-                                  pageDadosCadastro2(
-                                      tecEmail: controller.tecEmail,
-                                      tecSenha: controller.tecSenha)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 3,
+    return LayoutBuilder(builder: (p0, p1) {
+      return isVisualizacaoMobile()
+          ? PageLoginMobile()
+          : SafeArea(
+              child: Scaffold(
+                body: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Center(
                         child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [verde, roxo],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
+                          constraints: BoxConstraints(maxWidth: 400),
+                          color: corBackgroundLight,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: PageView(
+                              controller: controller.pageController,
+                              children: [
+                                pageEmailSenha(
+                                    tecEmail: controller.tecEmail,
+                                    tecSenha: controller.tecSenha),
+                                pageDadosCadastro1(),
+                                pageDadosCadastro2(
+                                    tecEmail: controller.tecEmail,
+                                    tecSenha: controller.tecSenha)
+                              ],
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [verde, roxo],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              );
-      }
-    );
+              ),
+            );
+    });
   }
 }

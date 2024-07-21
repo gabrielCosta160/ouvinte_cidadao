@@ -59,7 +59,7 @@ class PageSolicitacoesEfetuadasState extends State<PageSolicitacoesEfetuadas> {
               child: Botao(
                   cor: Colors.grey,
                   titulo: voltar,
-                  onClick: (context) {
+                  onClick: () {
                     Navigator.of(context).pop();
                   }),
             )
